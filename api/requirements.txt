@@ -1,5 +1,6 @@
 Flask==2.0.3
 Werkzeug==2.2.2
+requests==2.27.1
 pandas
 pydantic==1.10.9
 langchain 
