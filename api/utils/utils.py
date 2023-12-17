@@ -55,7 +55,7 @@ def summary_pipeline(filepath, filetype, token_size=1000):
     
     elif (filetype == 'pdf'):
         input_text = pdf_preprocessing(filepath)
-        return pipe_summarize(input_text)
+        return pipe_summarize(input_text)[0]["summary_text"]
 
 def answer_question(question, context):
     inputs = question_answering_tokenizer(text=question, text_pair=context, return_tensors="pt")
