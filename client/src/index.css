@@ -5,9 +5,113 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f9fa;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.title{
+  width: 50vw;
+  margin: 10px auto;
+  text-align: center;
+  color: #495057;
+  font-size: 30px;
+}
+
+.title > span {
+  font-size: 15px;
+  opacity: 0.8;
+}
+
+.chat-box {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 10px;
+  width: 50vw;
+  margin: auto;
+  background-color: #e9ecef;
+}
+
+.message-list {
+  flex: 1;
+  overflow-y: scroll;
+  padding: 10px;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.message.user {
+  background-color: #adb5bd;
+}
+
+.message.bot {
+  background-color: #f8f9fa;
+}
+.chat-input {
+  display: flex;
+  align-items: center;
+  margin: 0 20px 0 5px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #495057;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #495057;
+  color: #e9ecef;
+}
+
+.file-upload-icon {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.info-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 0 20px 5px 5px;
+}
+
+.file-name-indicator {
+  font-size: 12px;
+  font-weight: 300;
+  margin-left: 2.2vw;
+  margin-bottom: 5px;
+  color: #495057;
+}
+
+.summarize-button{
+  background-color: transparent;
+  color: #495057;
+  border: 1px solid #495057;
+  padding: 5px 10px;
 }
