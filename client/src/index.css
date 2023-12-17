@@ -14,7 +14,7 @@ code {
 }
 
 .title{
-  width: 50vw;
+  width: 800px;
   margin: 10px auto;
   text-align: center;
   color: #495057;
@@ -33,7 +33,7 @@ code {
   border: 1px solid #ced4da;
   border-radius: 5px;
   padding: 10px;
-  width: 50vw;
+  width: 800px;
   margin: auto;
   background-color: #e9ecef;
 }
@@ -47,15 +47,18 @@ code {
 .message {
   margin-bottom: 10px;
   padding: 15px;
-  border-radius: 5px;
 }
 
 .message.user {
   background-color: #adb5bd;
+  border-radius: 35px 35px 0 35px;
+  margin-left: 40px;
 }
 
 .message.bot {
   background-color: #f8f9fa;
+  border-radius: 35px 35px 35px 0;
+  margin-right: 40px;
 }
 .chat-input {
   display: flex;
@@ -104,7 +107,7 @@ button {
 .file-name-indicator {
   font-size: 12px;
   font-weight: 300;
-  margin-left: 2.2vw;
+  margin-left: 40px;
   margin-bottom: 5px;
   color: #495057;
 }
@@ -114,4 +117,13 @@ button {
   color: #495057;
   border: 1px solid #495057;
   padding: 5px 10px;
+}
+
+.spinner {
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

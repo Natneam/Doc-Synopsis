@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperclip, faPaperPlane, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import SERVER_URL from "../config"
+import toast from "react-hot-toast";
 
 const ChatBox = () => {
   const [messages, setMessages] = useState([]);
@@ -30,11 +31,12 @@ const ChatBox = () => {
         ]);
         setSummarizeLoading(false);
       } else {
-        console.error('Failed to summarize document');
+        toast.error("Summarization failed. Please try again.");
         setSummarizeLoading(false);
       }
     } catch (error) {
-      console.error('An error occurred during document summarization:', error);
+      toast.error("Summarization failed. Please try again.");
+      setSummarizeLoading(false);
     }
   };
 
@@ -70,16 +72,19 @@ const ChatBox = () => {
         ]);
         setSendMessageLoading(false);
       } else {
-        console.log("Message sending failed");
+        toast.error("Answering failed. Please try again.");
         setSendMessageLoading(false);
       }
     } catch (error) {
-      console.error("Error sending request:", error);
+      toast.error("Answering failed. Please try again.");
+      setSendMessageLoading(false);
     }
   };
 
   const renderMessage = (message, isUser, index) => (
-    <div className={`message ${isUser ? "user" : "bot"}`} key={index}>{message}</div>
+    <div className={`message ${isUser ? "user" : "bot"}`} key={index}>
+      {message}
+    </div>
   );
 
   const handleChange = async (event) => {
@@ -97,12 +102,12 @@ const ChatBox = () => {
       // Handle the response as needed
       if (response.ok) {
         setSelectedFileName(newFileName);
-        console.log("File uploaded successfully");
+        toast.success("File uploaded successfully.");
       } else {
-        console.log("File upload failed");
+        toast.error("File upload failed. Please try again.");
       }
     } catch (error) {
-      console.error("Error sending request:", error);
+      toast.error("File upload failed. Please try again.");
     }
   };
 
@@ -120,7 +125,7 @@ const ChatBox = () => {
         <div className="info-wrapper">
           <div className="file-name-indicator">{selectedFileName === "" ? "Text_segments.csv has been pre-uploaded. To update or change it, please upload a new file." : selectedFileName}</div>
           <button className="summarize-button" onClick={summarizeDoc}>
-            {summarizeLoading ? "Summarizing..." : "Summarize"}
+            {summarizeLoading ? <FontAwesomeIcon icon={faSpinner} className="spinner" /> : "Summarize"}
           </button>
         </div>
         <div className="chat-input">
@@ -152,7 +157,7 @@ const ChatBox = () => {
             }}
           />
           <button onClick={sendMessage}>
-            {sendMessageLoading ? <FontAwesomeIcon icon={faSpinner} /> : <FontAwesomeIcon icon={faPaperPlane} />}
+            {sendMessageLoading ? <FontAwesomeIcon icon={faSpinner} className="spinner" /> : <FontAwesomeIcon icon={faPaperPlane} />}
           </button>
         </div>
       </div>
