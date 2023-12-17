@@ -11,3 +11,4 @@ transformers
 accelerate 
 chromadb 
 pypdf
+flask-cors

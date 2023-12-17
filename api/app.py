@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request, jsonify, abort
+from flask_cors import CORS
 
 from utils.utils import summary_pipeline, question_answering_pipeline
 
@@ -11,6 +12,7 @@ if not os.path.exists(UPLOAD_DIRECTORY):
     os.makedirs(UPLOAD_DIRECTORY)
 
 app = Flask(__name__)
+CORS(app)
 
 #file upload endpoint
 @app.route('/upload/<filename>', methods=['POST'])
