@@ -1,22 +1,85 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperclip, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faPaperclip, faPaperPlane, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import SERVER_URL from "../config"
 
 const ChatBox = () => {
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
   const [selectedFileName, setSelectedFileName] = useState("");
+  const [summarizeLoading, setSummarizeLoading] = useState(false);
+  const [sendMessageLoading, setSendMessageLoading] = useState(false);
 
-  const sendMessage = () => {
-    if (messageInput.trim()) {
-      setMessages([...messages, { message: messageInput, isUser: true }]);
-      setMessageInput("");
+  const summarizeDoc = async () => {
+    if (summarizeLoading || sendMessageLoading) return;
+    setSummarizeLoading(true);
+    try {
+      const response = await fetch(
+        `${SERVER_URL}/summarize/${selectedFileName !== "" ? selectedFileName : "text_segments.csv"}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { message: result["summary"], isUser: false },
+        ]);
+        setSummarizeLoading(false);
+      } else {
+        console.error('Failed to summarize document');
+        setSummarizeLoading(false);
+      }
+    } catch (error) {
+      console.error('An error occurred during document summarization:', error);
     }
   };
 
-  const renderMessage = (message, isUser) => (
-    <div className={`message ${isUser ? "user" : "bot"}`}>{message}</div>
+  const sendMessage = async () => {
+    if (summarizeLoading || sendMessageLoading || messageInput === "") return;
+
+    if (messageInput.trim()) {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { message: messageInput, isUser: true },
+      ]);
+      setMessageInput("");
+    }
+
+    setSendMessageLoading(true);
+
+    // request to backend
+    try {
+      const response = await fetch(`${SERVER_URL}/answer/${selectedFileName !== "" ? selectedFileName : "text_segments.csv"}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ question: messageInput }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result["answer"]);
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { message: result["answer"], isUser: false },
+        ]);
+        setSendMessageLoading(false);
+      } else {
+        console.log("Message sending failed");
+        setSendMessageLoading(false);
+      }
+    } catch (error) {
+      console.error("Error sending request:", error);
+    }
+  };
+
+  const renderMessage = (message, isUser, index) => (
+    <div className={`message ${isUser ? "user" : "bot"}`} key={index}>{message}</div>
   );
 
   const handleChange = async (event) => {
@@ -32,8 +95,7 @@ const ChatBox = () => {
       });
 
       // Handle the response as needed
-      const result = await response.json();
-      if (result.success) {
+      if (response.ok) {
         setSelectedFileName(newFileName);
         console.log("File uploaded successfully");
       } else {
@@ -52,12 +114,14 @@ const ChatBox = () => {
       <div className="chat-box">
         <div className="message-list">
           {messages.map((message, index) =>
-            renderMessage(message.message, message.isUser)
+            renderMessage(message.message, message.isUser, index)
           )}
         </div>
         <div className="info-wrapper">
           <div className="file-name-indicator">{selectedFileName === "" ? "Text_segments.csv has been pre-uploaded. To update or change it, please upload a new file." : selectedFileName}</div>
-          <button className="summarize-button">Summarize</button>
+          <button className="summarize-button" onClick={summarizeDoc}>
+            {summarizeLoading ? "Summarizing..." : "Summarize"}
+          </button>
         </div>
         <div className="chat-input">
           <div className="file-upload-icon">
@@ -88,7 +152,7 @@ const ChatBox = () => {
             }}
           />
           <button onClick={sendMessage}>
-            <FontAwesomeIcon icon={faPaperPlane} />
+            {sendMessageLoading ? <FontAwesomeIcon icon={faSpinner} /> : <FontAwesomeIcon icon={faPaperPlane} />}
           </button>
         </div>
       </div>
