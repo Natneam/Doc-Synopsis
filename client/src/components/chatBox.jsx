@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperclip, faPaperPlane, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import SERVER_URL from "../config"
 import toast from "react-hot-toast";
+import botImg from "../assets/bot.png";
 
 const ChatBox = () => {
   const [messages, setMessages] = useState([]);
@@ -118,7 +119,8 @@ const ChatBox = () => {
       </div>
       <div className="chat-box">
         <div className="message-list">
-          {messages.map((message, index) =>
+          {messages.length === 0 && (<div className="no-conversation"><img src={botImg} alt="No messages available" className="bot-img"/>Hello! I am ByteGenie. I can answer your questions about the uploaded document. Please upload a document and ask me a question.</div>)}
+          {messages.length > 0 && messages.map((message, index) =>
             renderMessage(message.message, message.isUser, index)
           )}
         </div>
