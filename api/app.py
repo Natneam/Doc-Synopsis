@@ -2,7 +2,8 @@ import os
 from flask import Flask, request, jsonify, abort
 from flask_cors import CORS
 
-from utils.utils import summary_pipeline, question_answering_pipeline
+from utils.question_answering import question_answering_pipeline
+from utils.summarizer import summary_pipeline
 
 UPLOAD_DIRECTORY = "./data"
 
