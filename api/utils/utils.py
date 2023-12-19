@@ -3,14 +3,15 @@ from langchain.document_loaders import PyPDFLoader, DirectoryLoader
 import pandas as pd
 from transformers import pipeline, T5Tokenizer, T5ForConditionalGeneration, T5ForQuestionAnswering, AutoTokenizer
 import torch
+from .data_cleaner import clean_text
 
 # Load pre-trained model and tokenizer for summarization
-summarization_tokenizer = AutoTokenizer.from_pretrained("t5-small")
-summarization_model = T5ForConditionalGeneration.from_pretrained("t5-small", device_map='auto', torch_dtype=torch.float32)
+summarization_tokenizer = AutoTokenizer.from_pretrained("MBZUAI/LaMini-T5-738M")
+summarization_model = T5ForConditionalGeneration.from_pretrained("MBZUAI/LaMini-T5-738M", device_map='auto', torch_dtype=torch.float32)
 
 # Load pre-trained model and tokenizer for question answering
-question_answering_model = T5ForQuestionAnswering.from_pretrained("t5-small")
-question_answering_tokenizer = T5Tokenizer.from_pretrained("t5-small")
+question_answering_model = T5ForQuestionAnswering.from_pretrained("MBZUAI/LaMini-T5-738M")
+question_answering_tokenizer = T5Tokenizer.from_pretrained("MBZUAI/LaMini-T5-738M")
 
 def pdf_preprocessing(file):
     loader =  PyPDFLoader(file)
@@ -20,7 +21,8 @@ def pdf_preprocessing(file):
     final_texts = ""
     for text in texts:
         final_texts = final_texts + text.page_content
-    return final_texts
+
+    return clean_text(final_texts)
 
 def csv_preprocessing(filepath):
     result = {}
@@ -29,14 +31,13 @@ def csv_preprocessing(filepath):
         pdf_dict = dict(zip(grouped_data['doc_name'], grouped_data['text']))
         for key in pdf_dict:
             if key in result:
-                result[key] += " ".join([str(x) for x in pdf_dict[key]])
+                result[key] += clean_text(" ".join([str(x) for x in pdf_dict[key]]))
             else:
-                result[key] = " ".join([str(x) for x in pdf_dict[key]])
-
+                result[key] = clean_text(" ".join([str(x) for x in pdf_dict[key]]))
     return result
 
 # LLM pipelines
-def summary_pipeline(filepath, filetype, token_size=1000):
+def summary_pipeline(filepath, filetype, token_size=2000): # Adjust token_size based on machine capacity.
     pipe_summarize = pipeline(
         'summarization',
         model=summarization_model,
@@ -50,7 +51,7 @@ def summary_pipeline(filepath, filetype, token_size=1000):
         result = []
         input_text = csv_preprocessing(filepath)
         for item in input_text.values():
-            result.append(pipe_summarize(item[:min(token_size, len(item) - 1)])[0]['summary_text'])
+            result.append(pipe_summarize(item[:min(token_size, len(item) - 1)])[0]['summary_text'] + "\n\n")
         return " ".join([r.capitalize() for r in result])
     
     elif (filetype == 'pdf'):
