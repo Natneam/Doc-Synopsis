@@ -84,9 +84,15 @@ const ChatBox = () => {
 
   const renderMessage = (message, isUser, index) => (
     <div className={`message ${isUser ? "user" : "bot"}`} key={index}>
-      {message}
+      {message.split('\n\n').map((line, lineIndex) => (
+        <React.Fragment key={lineIndex}>
+          {line}
+          {lineIndex !== message.split('\n\n').length - 1 && <br />}
+          <br />
+        </React.Fragment>
+      ))}
     </div>
-  );
+  );  
 
   const handleChange = async (event) => {
     const newFileName = event.target.files[0]?.name || "text_segments.csv";
