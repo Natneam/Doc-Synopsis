@@ -30,11 +30,9 @@ def clean_text(text):
 def pdf_preprocessing(file):
     loader =  PyPDFLoader(file)
     pages = loader.load_and_split()
-    text_splitter = RecursiveCharacterTextSplitter(separator="\n", chunk_size=200, chunk_overlap=50, length_function=len)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     texts = text_splitter.split_documents(pages)
-    final_texts = ""
-    for text in texts:
-        final_texts = final_texts + text.page_content
+    final_texts = ''.join(text.page_content for text in texts)
 
     return clean_text(final_texts)
 
