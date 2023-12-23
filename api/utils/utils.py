@@ -3,6 +3,7 @@ import string
 import nltk
 nltk.download('stopwords')
 nltk.download('wordnet')
+nltk.download('punkt')
 from nltk.corpus import stopwords
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader

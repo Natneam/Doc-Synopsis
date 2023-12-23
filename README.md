@@ -65,3 +65,8 @@ In this project, I've crafted two of the features listed on the original challen
    ```
 - **Customizing Ports and Environment Variables:**
    - Modify the `docker-compose.yml` file for any port or environment variable adjustments.
+
+- **Known possible Issues**
+  - Ensure that your Docker daemon is configured with a minimum of 12GB RAM. Insufficient memory might lead to application crashes.
+  - The application's processing speed is influenced by the system's capabilities. For optimal performance, I recommend using a machine with sufficient processing power. In my testing, I used an Apple MacBook Pro M1 Pro with 16GB RAM and 512GB SSD. Summarizing a document typically takes a few minutes.
+  - Upon the initial startup and API calls, the models from Hugging Face need to be downloaded, potentially extending the waiting time.
