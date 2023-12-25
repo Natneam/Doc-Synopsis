@@ -34,4 +34,3 @@ The frontend enables users to interact with the backend API through a user-frien
    - Efficient state management and rendering techniques.
 5. **Testing:**
    - Implement unit and integration tests to ensure code quality and prevent regressions.
-   - Conduct user testing to gather feedback and iterate on design and functionality.
