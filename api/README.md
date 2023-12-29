@@ -19,11 +19,6 @@ To optimize API performance and accuracy, the raw data undergoes the following c
 5. **Stop word removal:** Eliminates common words (e.g., "the," "a," "and") that often have minimal semantic value.
 6. **Lemmatization:** Reduces words to their base forms (e.g., "running" to "run") to enhance consistency and accuracy.
 
-**Key Challenges:**
-
-- Limited experience in AI and natural language processing (NLP) domains posed a learning curve.
-- Performance optimization for reasonable response times within a constrained timeframe was challenging.
-
 **Backend Improvements (Future Work):**
 
 1. **Cloud Deployment:** Leverage AWS infrastructure for scalability and resource optimization.

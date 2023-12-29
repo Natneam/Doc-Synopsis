@@ -17,10 +17,6 @@ The frontend enables users to interact with the backend API through a user-frien
 - **Text Summarization:** Triggers the backend's summarization functionality.
 - **Question Answering:** Relays user queries to the backend for response generation.
 
-**Key Challenges:**
-
-- **React Skills Refresher:** Requiring a review of React fundamentals for development.
-
 **Frontend Improvements (Future Work):**
 
 1. **Browser-Side Caching:** Store frequently accessed data locally for offline access and faster performance.
