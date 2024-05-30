@@ -121,7 +121,7 @@ const ChatBox = () => {
   return (
     <>
       <div className="title">
-        ByteGenie FullStack Developer Test <span>By Natneam</span>
+        ByteGenie Chatbot
       </div>
       <div className="chat-box">
         <div className="message-list">

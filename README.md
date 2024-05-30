@@ -1,6 +1,3 @@
-**#ByteGenie Full-stack Challenge**
-
-
 **Project Overview**
 
 In this project, I've crafted two of the features listed on the original challenge document: document summarization and document question answering.
