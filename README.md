@@ -1,6 +1,6 @@
 **Project Overview**
 
-In this project, I've crafted two of the features listed on the original challenge document: document summarization and document question answering.
+In this project, I've crafted document summarization and document question answering.
 
 **Quick Links to Other readme files**
 - API readme: [api/README.md](api/README.md)
@@ -15,7 +15,7 @@ In this project, I've crafted two of the features listed on the original challen
 
 **File Structure:**
 
-- `api/`: Python project
+- `api/`: Python ML project
 - `client/`: React project
 - `docker-compose.yml`: Docker Compose configuration file
 
